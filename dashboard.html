@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard de Métricas</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { background: #0d0f0c; color: #e8ead4; font-family: 'DM Sans', sans-serif; padding: 40px; margin: 0; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .card { background: #13160f; border: 1px solid #2a3023; padding: 24px; border-radius: 8px; margin-bottom: 24px; }
+    h1 { color: #d4a853; text-align: center; margin-bottom: 40px; font-weight: 600; font-size: 32px; }
+    h3 { margin-top: 0; color: #e8ead4; font-weight: 500; font-size: 18px; margin-bottom: 16px; border-bottom: 1px solid #2a3023; padding-bottom: 12px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+    th, td { padding: 12px 16px; border-bottom: 1px solid #2a3023; text-align: left; }
+    th { color: #d4a853; font-weight: 500; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+    td { color: #7a8470; }
+    .btn { background: #d4a853; color: #111; padding: 12px 24px; border: none; cursor: pointer; border-radius: 4px; font-weight: 600; font-family: 'DM Sans'; font-size: 15px; width: 100%; margin-top: 20px; }
+    .btn:hover { background: #f0c96a; }
+    #login { text-align: center; max-width: 400px; margin: 100px auto; }
+    .input-group { margin-bottom: 16px; text-align: left; }
+    .input-group label { display: block; margin-bottom: 6px; font-size: 12px; color: #7a8470; }
+    .input-group input { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #2a3023; background: #181c14; color: white; outline: none; font-family: monospace; box-sizing: border-box;}
+    .input-group input:focus { border-color: #d4a853; }
+    .chart-container { position: relative; height: 300px; width: 100%; display: flex; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="login" class="card">
+      <h2 style="color: #d4a853; margin-top:0;">Autenticación</h2>
+      <p style="color: #7a8470; font-size:14px; margin-bottom: 24px;">Ingresá tus credenciales de Supabase para acceder a las métricas del examen.</p>
+      <div class="input-group">
+        <label>URL DEL PROYECTO</label>
+        <input type="text" id="supUrl" placeholder="https://xxxx.supabase.co">
+      </div>
+      <div class="input-group">
+        <label>CLAVE PÚBLICA (ANON KEY)</label>
+        <input type="password" id="supKey" placeholder="eyJh...">
+      </div>
+      <button class="btn" onclick="loadData()">Acceder a las Métricas</button>
+      <div id="loginError" style="color: #e05a5a; font-size: 13px; margin-top: 16px; display: none;"></div>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+      <h1>Métricas de Evaluación</h1>
+      <div class="grid">
+        <div class="card">
+          <h3>Distribución de Aprobados</h3>
+          <div class="chart-container">
+            <canvas id="chartPie"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Calificaciones Generales</h3>
+          <div class="chart-container">
+            <canvas id="chartBar"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Detalle por Alumno</h3>
+        <table>
+          <thead><tr><th>Alumno</th><th>Puntaje</th><th>Porcentaje</th><th>Preguntas Falladas</th><th>Fecha</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadData() {
+      const url = document.getElementById('supUrl').value.trim();
+      const key = document.getElementById('supKey').value.trim();
+      const errEl = document.getElementById('loginError');
+      errEl.style.display = 'none';
+
+      if(!url || !key) {
+        errEl.textContent = 'Por favor completá ambos campos.';
+        errEl.style.display = 'block';
+        return;
+      }
+      
+      const supabase = window.supabase.createClient(url, key);
+      const { data, error } = await supabase.from('exam_resultados').select('*').order('created_at', { ascending: false });
+      
+      if(error) {
+        errEl.textContent = 'Error al conectar con la base de datos. Verificá las credenciales o si creaste la tabla "resultados".';
+        errEl.style.display = 'block';
+        return;
+      }
+      
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+
+      // Procesar datos
+      const tbody = document.getElementById('tbody');
+      let aprobados = 0, reprobados = 0;
+      const notas = { 'Desaprobado':0, 'Aprobado (6+)':0, 'Muy Bien (8+)':0, 'Excelente (10)':0 };
+
+      data.forEach(r => {
+        if(r.porcentaje >= 60) aprobados++; else reprobados++;
+        
+        let rank = r.porcentaje>=90 ? 'Excelente (10)' : r.porcentaje>=75 ? 'Muy Bien (8+)' : r.porcentaje>=60 ? 'Aprobado (6+)' : 'Desaprobado';
+        notas[rank]++;
+        
+        const date = new Date(r.created_at).toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+        
+        tbody.innerHTML += `<tr>
+          <td style="color:#d4a853; font-weight:500;">${r.nombre}</td>
+          <td>${r.puntaje} / ${r.total}</td>
+          <td style="color:${r.porcentaje>=60 ? '#7bc67a' : '#e05a5a'}">${r.porcentaje}%</td>
+          <td style="font-size:12px; color:#7a8470; line-height:1.4;">${r.errores ? r.errores : '-'}</td>
+          <td style="font-size:12px; color:#7a8470;">${date}</td>
+        </tr>`;
+      });
+
+      // Gráfico Torta
+      Chart.defaults.color = '#7a8470';
+      Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+      new Chart(document.getElementById('chartPie'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Aprobados (60% o más)', 'Para Repasar (Menos de 60%)'],
+          datasets: [{ data: [aprobados, reprobados], backgroundColor: ['#7bc67a', '#e05a5a'], borderWidth: 0, hoverOffset: 4 }]
+        },
+        options: { 
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#e8ead4', padding: 20 } } },
+          cutout: '70%'
+        }
+      });
+
+      // Gráfico Barras
+      new Chart(document.getElementById('chartBar'), {
+        type: 'bar',
+        data: {
+          labels: ['Desaprobado', 'Aprobado', 'Muy Bien', 'Excelente'],
+          datasets: [{ 
+            label: 'Alumnos', 
+            data: [notas['Desaprobado'], notas['Aprobado (6+)'], notas['Muy Bien (8+)'], notas['Excelente (10)']], 
+            backgroundColor: ['#e05a5a', '#6ab4d4', '#7bc67a', '#d4a853'],
+            borderRadius: 4
+          }]
+        },
+        options: { 
+          maintainAspectRatio: false,
+          scales: { 
+            y: { ticks: { color: '#7a8470', stepSize: 1 }, grid: { color: '#2a3023' } }, 
+            x: { ticks: { color: '#e8ead4' }, grid: { display: false } } 
+          }, 
+          plugins: { legend: { display: false } } 
+        }
+      });
+    }
+  </script>
+</body>
+</html>
