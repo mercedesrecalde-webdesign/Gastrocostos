@@ -89,8 +89,8 @@ body::before {
 }
 
 .blocks-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 12px; max-width: 680px; width: 100%;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px; max-width: 860px; width: 100%;
   margin-bottom: 48px;
   opacity: 0; animation: fadeUp .6s .7s forwards;
 }
@@ -355,6 +355,14 @@ body::before {
       <div class="bc-num">8</div>
       <div class="bc-label">Bloque III<br>Cálculos Prácticos</div>
     </div>
+    <div class="block-card">
+      <div class="bc-num">5</div>
+      <div class="bc-label">Bloque IV<br>Análisis Rápido</div>
+    </div>
+    <div class="block-card">
+      <div class="bc-num">6</div>
+      <div class="bc-label">Bloque V<br>Clasificación Guiada</div>
+    </div>
   </div>
 
   <div class="name-wrap">
@@ -370,7 +378,7 @@ body::before {
     <span class="quiz-brand">// COSTOS Y PRESUPUESTOS</span>
     <div class="pb-wrap">
       <div class="pb-track"><div class="pb-fill" id="pbFill"></div></div>
-      <div class="pb-txt" id="pbTxt">0 / 21</div>
+      <div class="pb-txt" id="pbTxt">0 / 32</div>
     </div>
     <div class="score-pill" id="scorePill">Puntaje: 0</div>
   </div>
@@ -405,7 +413,7 @@ const QS = [
 {
   sec: "BLOQUE I · Clasificación de Costos",
   type: "mc",
-  text: "El alquiler del salón de un restaurante es $1.250.000 por mes, lo pague o no tenga clientes. ¿Cómo se clasifica según su variabilidad?",
+  text: "El alquiler del salón de un restaurante es $1.250.000 por mes, lo pago aunque tenga clientes o no. ¿Cómo se clasifica según su variabilidad?",
   opts: [
     "Costo Variable, porque cambia con las ventas.",
     "Costo Fijo, porque permanece constante independientemente del nivel de actividad.",
@@ -634,6 +642,109 @@ const QS = [
   ans: 2,
   fb: "Exacto. Ganancia = (800 − 360) × CMu = 440 × $2.000 = <strong>$880.000 de ganancia real</strong>. Esta es la lógica del PE: una vez que la CMu acumulada 'completó la pared' de costos fijos, cada venta adicional es rentabilidad pura para el propietario."
 },
+/* ──────── BLOQUE IV: ANÁLISIS RÁPIDO ──────── */
+{
+  sec: "BLOQUE IV · Análisis Rápido",
+  scen: {
+    title: "DATOS DEL CASO",
+    body: "Una cafetería tiene <strong>Costos Fijos Totales de $50.000</strong> por día. El costo de los ingredientes y el vaso (<strong>Costo Variable Unitario</strong>) es de <strong>$500</strong> por cada café preparado.",
+    note: "Completá los valores solicitados pensando en el comportamiento de los costos fijos y variables."
+  },
+  type: "numeric",
+  text: "Si hoy preparan 10 cafés, ¿cuál es el Costo Variable Total?",
+  hint: "Multiplicá la cantidad por el costo variable de cada café.",
+  ans: 5000, tol: 0,
+  unit: "$",
+  fb: "Correcto. 10 cafés × $500 = <strong>$5.000</strong>."
+},
+{
+  sec: null, type: "numeric",
+  text: "Si preparan 10 cafés, ¿a cuánto ascienden los Costos Fijos Totales del día?",
+  hint: "Recordá la definición de Costo Fijo.",
+  ans: 50000, tol: 0,
+  unit: "$",
+  fb: "Exacto. Los Costos Fijos Totales son siempre <strong>$50.000</strong>, sin importar si preparan 10 o 100 cafés."
+},
+{
+  sec: null, type: "numeric",
+  text: "Si en un día excelente preparan 100 cafés, ¿cuál es el Costo Fijo Unitario (CFU)?",
+  hint: "Repartí el costo fijo total entre la cantidad de cafés.",
+  ans: 500, tol: 0,
+  unit: "$",
+  fb: "Muy bien. $50.000 ÷ 100 cafés = <strong>$500</strong>. Al vender más, el peso del costo fijo en cada café es mucho menor."
+},
+{
+  sec: null, type: "mc",
+  text: "¿Qué pasaría si la cafetería no abre un día por feriado y vende 0 cafés?",
+  opts: [
+    "No tiene ningún costo ese día.",
+    "El Costo Variable Total es $0, pero igual debe asumir los $50.000 de Costos Fijos.",
+    "Tendrá que pagar el doble de costos al día siguiente."
+  ],
+  ans: 1,
+  fb: "Exactamente. Si la producción es cero, el Costo Variable es $0 (no gastás café ni vasos). Pero los Costos Fijos ($50.000 de alquiler y sueldos) se siguen devengando."
+},
+{
+  sec: null, type: "tf",
+  text: "El Costo Variable Unitario ($500 por café) se mantiene constante sin importar cuántos cafés se vendan en el día.",
+  ans: true,
+  fb: "Verdadero. El costo por unidad no cambia (cada café siempre gasta $500 en insumos). Lo que aumenta en total es el Costo Variable TOTAL a medida que hacés más cafés."
+},
+/* ──────── BLOQUE V: CLASIFICACIÓN GUIADA ──────── */
+{
+  sec: "BLOQUE V · Clasificación Guiada",
+  scen: {
+    title: "CASO: LA HAMBURGUESERÍA",
+    body: "Clasificá los siguientes conceptos del local de hamburguesas en <strong>Costo Fijo</strong>, <strong>Costo Variable</strong> o <strong>Gasto</strong>.",
+    note: "Leé atentamente la guía que acompaña a cada pregunta para deducir la respuesta."
+  },
+  type: "mc",
+  text: "El <strong>Pan de papa</strong> cuesta $300 por unidad. ¿Cómo se clasifica?",
+  hint: "Guía: Pensá en la palabra 'producción'. Si producís más hamburguesas, consumís más panes.",
+  opts: ["Costo Fijo", "Costo Variable", "Gasto"],
+  ans: 1,
+  fb: "Correcto. Como depende directamente de la cantidad de hamburguesas producidas, es un Costo Variable."
+},
+{
+  sec: null, type: "mc",
+  text: "El <strong>Alquiler del local</strong> sale $400.000 por mes.",
+  hint: "Guía: Pensá en la palabra 'tiempo'. Se paga por mes, sin importar si vendés mucho o poco.",
+  opts: ["Costo Fijo", "Costo Variable", "Gasto"],
+  ans: 0,
+  fb: "Exacto. Es un Costo Fijo porque permanece constante frente a los cambios en el nivel de actividad."
+},
+{
+  sec: null, type: "mc",
+  text: "El <strong>Queso cheddar</strong> cuesta $200 por unidad (feta).",
+  hint: "Guía: Pensá en los 'ingredientes'. Todo ingrediente del plato varía con las ventas.",
+  opts: ["Costo Fijo", "Costo Variable", "Gasto"],
+  ans: 1,
+  fb: "Muy bien. El queso es materia prima directa, por ende es un Costo Variable."
+},
+{
+  sec: null, type: "mc",
+  text: "El <strong>Sueldo del cocinero</strong> es de $350.000 por mes.",
+  hint: "Guía: Pensá en 'fijo mensual'. Es mano de obra de producción, pero cobra un sueldo estable todos los meses.",
+  opts: ["Costo Fijo", "Costo Variable", "Gasto"],
+  ans: 0,
+  fb: "Correcto. El cocinero es Mano de Obra Directa (Costo), y como cobra un salario mensual fijo independientemente de los platos que saque, su comportamiento es de Costo Fijo."
+},
+{
+  sec: null, type: "mc",
+  text: "El pago de <strong>Internet y Teléfono</strong> por $25.000 al mes.",
+  hint: "Guía: Pensá en 'administración'. No se usa directamente para cocinar la hamburguesa.",
+  opts: ["Costo Fijo de Producción", "Costo Variable", "Gasto (Administrativo)"],
+  ans: 2,
+  fb: "Perfecto. Es un Gasto porque es una erogación necesaria para administrar el local, pero no se incorpora al producto final."
+},
+{
+  sec: null, type: "mc",
+  text: "La <strong>Publicidad en Instagram</strong> por $15.000 al mes.",
+  hint: "Guía: Pensá en 'comercialización'. Ayuda a vender, pero no es parte de la receta.",
+  opts: ["Costo Fijo", "Costo Variable", "Gasto (Comercial)"],
+  ans: 2,
+  fb: "Exactamente. La publicidad es un Gasto de Comercialización. No es un costo de producción porque no interviene en la cocina."
+}
 
 ];
 
@@ -668,8 +779,8 @@ function renderQuestions() {
       sh.innerHTML = `<div class="sec-num">${'I'.repeat(Math.min(i,3)+1).replace(/I{4}/,'IV').replace(/I{3}/,'III').replace(/I{2}/,'II')}</div>
         <div class="sec-info"><div class="sec-tag">${tag}</div><div class="sec-title">${rest.join(' · ')}</div></div>`;
       // Fix roman numerals
-      const rm = ['I','II','III'];
-      const idx = ['BLOQUE I','BLOQUE II','BLOQUE III'].findIndex(b => q.sec.startsWith(b));
+      const rm = ['I','II','III','IV','V'];
+      const idx = ['BLOQUE I','BLOQUE II','BLOQUE III','BLOQUE IV','BLOQUE V'].findIndex(b => q.sec.startsWith(b));
       sh.querySelector('.sec-num').textContent = rm[idx] ?? rm[0];
       c.appendChild(sh);
     }
@@ -783,7 +894,13 @@ function confirm(qi) {
 
   const fb = document.getElementById(`fb-${qi}`);
   fb.className = `fb ${ok ? 'ok-fb' : 'err-fb'}`;
-  fb.innerHTML = (ok ? '✓ ' : '✗ ') + q.fb +
+  
+  let feedbackText = q.fb;
+  if (!ok) {
+    feedbackText = feedbackText.replace(/^(Exacto|Correcto|Muy bien|Exactamente|Verdadero)\.\s*/i, '');
+  }
+  
+  fb.innerHTML = (ok ? '✓ ' : '✗ <strong>Incorrecto.</strong> ') + feedbackText +
     (!ok && q.type === 'numeric' ? ` → <strong>Respuesta correcta: ${q.ans.toLocaleString('es-AR')} ${q.unit}</strong>` : '');
 
   updatePB();
