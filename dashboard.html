@@ -25,27 +25,26 @@
     .input-group input { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #2a3023; background: #181c14; color: white; outline: none; font-family: monospace; box-sizing: border-box;}
     .input-group input:focus { border-color: #d4a853; }
     .chart-container { position: relative; height: 300px; width: 100%; display: flex; justify-content: center; }
+    .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+    .header-row h1 { margin-bottom: 0; }
+    .btn-print { background: transparent; border: 1px solid #d4a853; color: #d4a853; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; font-family: 'DM Sans'; }
+    .btn-print:hover { background: rgba(212,168,83,0.1); }
+    @media print {
+      .btn-print { display: none !important; }
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .card { break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div id="login" class="card">
-      <h2 style="color: #d4a853; margin-top:0;">Autenticación</h2>
-      <p style="color: #7a8470; font-size:14px; margin-bottom: 24px;">Ingresá tus credenciales de Supabase para acceder a las métricas del examen.</p>
-      <div class="input-group">
-        <label>URL DEL PROYECTO</label>
-        <input type="text" id="supUrl" placeholder="https://xxxx.supabase.co">
-      </div>
-      <div class="input-group">
-        <label>CLAVE PÚBLICA (ANON KEY)</label>
-        <input type="password" id="supKey" placeholder="eyJh...">
-      </div>
-      <button class="btn" onclick="loadData()">Acceder a las Métricas</button>
-      <div id="loginError" style="color: #e05a5a; font-size: 13px; margin-top: 16px; display: none;"></div>
-    </div>
+    <div id="login" class="card" style="display:none;"></div>
 
     <div id="dashboard" style="display:none;">
-      <h1>Métricas de Evaluación</h1>
+      <div class="header-row">
+        <h1>Métricas de Evaluación</h1>
+        <button class="btn-print" onclick="window.print()">🖨 Guardar como PDF</button>
+      </div>
       <div class="grid">
         <div class="card">
           <h3>Distribución de Aprobados</h3>
@@ -72,23 +71,13 @@
 
   <script>
     async function loadData() {
-      const url = document.getElementById('supUrl').value.trim();
-      const key = document.getElementById('supKey').value.trim();
-      const errEl = document.getElementById('loginError');
-      errEl.style.display = 'none';
-
-      if(!url || !key) {
-        errEl.textContent = 'Por favor completá ambos campos.';
-        errEl.style.display = 'block';
-        return;
-      }
-      
+      const url = 'https://dukgjrhyhyxvdqzhthje.supabase.co';
+      const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1a2dqcmh5aHl4dmRxemh0aGplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MTQzNjIsImV4cCI6MjA4MzQ5MDM2Mn0.JYZWv2vYwMbTopyL-T8_kjbX2py5IL7Ap6ASZc2B4dM';
       const supabase = window.supabase.createClient(url, key);
       const { data, error } = await supabase.from('exam_resultados').select('*').order('created_at', { ascending: false });
       
       if(error) {
-        errEl.textContent = 'Error al conectar con la base de datos. Verificá las credenciales o si creaste la tabla "resultados".';
-        errEl.style.display = 'block';
+        alert('Error al conectar con la base de datos: ' + error.message);
         return;
       }
       
@@ -156,6 +145,10 @@
         }
       });
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+    });
   </script>
 </body>
 </html>

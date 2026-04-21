@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evaluación Integral · Costos y Presupuestos</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Fraunces:ital,wght@0,300;0,600;0,700;1,300&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --bg: #0d0f0c;
@@ -312,13 +313,33 @@ body::before {
 .rev-d .bad { color: var(--red); }
 .rev-d .ans { color: var(--gold2); }
 
+.actions-row { display: flex; justify-content: center; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+.btn-print {
+  background: var(--gold); border: none; color: #111;
+  font-family: var(--body); font-weight: 600; font-size: 15px;
+  padding: 13px 36px; border-radius: 4px; cursor: pointer; transition: all .15s;
+}
+.btn-print:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(212,168,83,.2); }
+
 .btn-retry {
-  display: block; margin: 40px auto 0;
   background: transparent; border: 1px solid var(--gold);
   color: var(--gold); font-family: var(--body); font-weight: 600; font-size: 15px;
-  padding: 13px 48px; border-radius: 4px; cursor: pointer; transition: all .15s;
+  padding: 13px 36px; border-radius: 4px; cursor: pointer; transition: all .15s;
 }
 .btn-retry:hover { background: rgba(212,168,83,.08); transform: translateY(-2px); }
+
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  body::before { display: none; }
+  .actions-row, .quiz-topbar { display: none !important; }
+  .stat, .rev-item { background: #fff; border-color: #ddd; color: #000; break-inside: avoid; }
+  .stat-n { color: #000 !important; }
+  .rev-d .ok { color: #2e7d32; }
+  .rev-d .bad { color: #c62828; }
+  .rev-d .ans { color: #1565c0; }
+  .res-grade { color: #000 !important; }
+  #results { padding: 0; }
+}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
@@ -352,7 +373,7 @@ body::before {
       <div class="bc-label">Bloque II<br>Comportamiento y Tabla</div>
     </div>
     <div class="block-card">
-      <div class="bc-num">8</div>
+      <div class="bc-num">12</div>
       <div class="bc-label">Bloque III<br>Cálculos Prácticos</div>
     </div>
     <div class="block-card">
@@ -403,10 +424,21 @@ body::before {
   </div>
   <div class="rev-hdr">// Revisión completa — pregunta a pregunta</div>
   <div id="revContainer"></div>
-  <button class="btn-retry" onclick="retry()">↺ Intentar de nuevo</button>
+  <div class="actions-row">
+    <button class="btn-print" onclick="window.print()">🖨 Imprimir Métricas (PDF)</button>
+    <button class="btn-retry" onclick="retry()">↺ Intentar de nuevo</button>
+  </div>
 </section>
 
 <script>
+// ── Configuración Supabase ──
+const SUPABASE_URL = 'https://dukgjrhyhyxvdqzhthje.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1a2dqcmh5aHl4dmRxemh0aGplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MTQzNjIsImV4cCI6MjA4MzQ5MDM2Mn0.JYZWv2vYwMbTopyL-T8_kjbX2py5IL7Ap6ASZc2B4dM';
+let supabaseClient = null;
+if (SUPABASE_URL !== 'PEGAR_AQUI_TU_URL' && window.supabase) {
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
 const QS = [
 
 /* ──────── BLOQUE I: CLASIFICACIÓN DE COSTOS ──────── */
@@ -479,7 +511,7 @@ const QS = [
 },
 {
   sec: null, type: "mc",
-  text: "Las comisiones de aplicaciones de delivery ($200.000/mes promedio) y las comisiones de tarjetas ($226.000/mes) son costos:",
+  text: "Las comisiones de aplicaciones de delivery ($200.000/mes promedio) y las comisiones de tarjetas ($226.000/mes promedio) son costos:",
   opts: [
     "Fijos, porque se pagan todos los meses.",
     "Variables, porque aumentan en proporción al volumen de ventas realizadas.",
@@ -641,6 +673,35 @@ const QS = [
   ],
   ans: 2,
   fb: "Exacto. Ganancia = (800 − 360) × CMu = 440 × $2.000 = <strong>$880.000 de ganancia real</strong>. Esta es la lógica del PE: una vez que la CMu acumulada 'completó la pared' de costos fijos, cada venta adicional es rentabilidad pura para el propietario."
+},
+{
+  sec: null, type: "mc",
+  text: "Siguiendo con La Pasta del Puerto: Si por un problema el local cierra unos días y solo logra vender 300 porciones en el mes (recordá que su PE es 360 porciones y su CMu es $2.000). ¿Cuál fue el resultado económico?",
+  opts: [
+    "Ganaron $600.000, porque 300 x $2.000 = $600.000.",
+    "Perdieron dinero. Exactamente $120.000 de pérdida.",
+    "Salieron 'hechos' (ni ganaron ni perdieron)."
+  ],
+  ans: 1,
+  fb: "Exacto. Al faltar 60 porciones para llegar al Punto de Equilibrio (360 − 300 = 60), esas 60 porciones a $2.000 de CMu cada una representan el dinero faltante: $120.000 de pérdida."
+},
+{
+  sec: null, type: "tf",
+  text: "Opciones para mejorar: Para AUMENTAR nuestra Contribución Marginal Unitaria, una excelente estrategia sería buscar un proveedor de materia prima más barato sin perder calidad, bajando así el Costo Variable Unitario.",
+  ans: true,
+  fb: "Verdadero. Si bajás el Costo Variable Unitario (ingredientes) y mantenés el Precio de Venta, la Contribución Marginal (lo que te queda limpio por plato) crece automáticamente."
+},
+{
+  sec: null, type: "tf",
+  text: "Opciones para mejorar: Bajar el sueldo del cocinero o mudarnos a un local con alquiler más barato hace que nuestra Contribución Marginal UNITARIA aumente.",
+  ans: false,
+  fb: "Falso. Bajar alquileres o sueldos achica los COSTOS FIJOS, lo cual baja tu Punto de Equilibrio, pero NO cambia tu Contribución Marginal por plato."
+},
+{
+  sec: null, type: "tf",
+  text: "Opciones para mejorar: Aumentar el Precio de Venta del plato al cliente es otra forma directa de mejorar la Contribución Marginal Unitaria.",
+  ans: true,
+  fb: "Verdadero. Si el cliente te paga más caro (y tus costos son los mismos), te queda una porción de dinero más grande 'limpia' por cada plato."
 },
 /* ──────── BLOQUE IV: ANÁLISIS RÁPIDO ──────── */
 {
@@ -968,6 +1029,19 @@ function showResults() {
     d.innerHTML = `<div class="rev-q">P${String(i+1).padStart(2,'0')} — ${q.text}</div><div class="rev-d">${detail}</div>`;
     rc.appendChild(d);
   });
+
+  // Enviar a Supabase
+  if (supabaseClient) {
+    const failedQs = [];
+    QS.forEach((q,i) => {
+      const a = answers[i];
+      let ok = (q.type==='mc'||q.type==='tf') ? a===q.ans : Math.abs(a-q.ans)<=q.tol;
+      if (!ok) failedQs.push(`P${String(i+1).padStart(2,'0')}`);
+    });
+    supabaseClient.from('exam_resultados').insert([
+      { nombre: nombre, puntaje: score, total: QS.length, porcentaje: pct, errores: failedQs.join(', ') }
+    ]).then(res => { if(res.error) console.error('Supabase Error:', res.error); });
+  }
 }
 
 function retry() {
