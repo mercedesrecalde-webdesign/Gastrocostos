@@ -152,8 +152,8 @@ canvas.ch{width:100%!important;height:290px!important;display:block}
 
 <!-- SUPABASE CONFIG — reemplazá con tus valores -->
 <script>
-const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
-const SUPABASE_KEY = 'TU_ANON_KEY';
+const SUPABASE_URL = 'https://dukgjrhyhyxvdqzhthje.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1a2dqcmh5aHl4dmRxemh0aGplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MTQzNjIsImV4cCI6MjA4MzQ5MDM2Mn0.JYZWv2vYwMbTopyL-T8_kjbX2py5IL7Ap6ASZc2B4dM';
 const SB = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const SIMULACRO_NUM = 1;
 </script>
@@ -438,6 +438,19 @@ async function showRes(){
   document.getElementById('rm').textContent=pct>=75?'¡Bien! Estás listo/a para el parcial.':'Repasá los temas donde cometiste errores.';
   document.getElementById('sc').textContent=score;document.getElementById('sw').textContent=TOTAL-score;document.getElementById('sp2').textContent=pct+'%';
   const rc=document.getElementById('rc');rc.innerHTML='';
+  const failedQs = [];
+  QS.forEach((q,i)=>{
+    const ok=corr[q.id]||false;const a=ans[q.id];
+    if(!ok) {
+       let ansStr = 'Sin responder';
+       if (a !== undefined) {
+         if (q.type==='mc') ansStr = String.fromCharCode(65+a);
+         else if(q.type==='tf') ansStr= a ? 'Verdadero' : 'Falso';
+         else ansStr = a + (q.unit ? ' ' + q.unit : '');
+       }
+       failedQs.push(q.id.toUpperCase() + '||' + ansStr);
+    }
+  });
   QS.forEach((q,i)=>{
     const ok=corr[q.id]||false;const a=ans[q.id];
     let det;
@@ -448,7 +461,7 @@ async function showRes(){
     d.innerHTML=`<div class="ri-q">P${String(i+1).padStart(2,'0')} — ${q.text}</div><div class="ri-d">${det}</div>`;rc.appendChild(d);
   });
   // Save to Supabase
-  try{await SB.from('simulacros_resultados').insert({nombre,simulacro_num:SIMULACRO_NUM,score,total:TOTAL,pct,grade,answers_json:ans});}catch(e){console.warn('Supabase error:',e);}
+  try{await SB.from('exam_resultados').insert({nombre: nombre, puntaje: score, total: TOTAL, porcentaje: pct, errores: failedQs.length ? 'S1: ' + failedQs.join(', ') : 'S1: OK' });}catch(e){console.warn('Supabase error:',e);}
 }
 
 function retry(){ans={};conf={};corr={};score=0;document.getElementById('res').style.display='none';document.getElementById('exam').style.display='block';document.getElementById('bfin').style.display='none';window.scrollTo(0,0);render();upd();}

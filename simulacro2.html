@@ -393,7 +393,7 @@ async function showRes(){
     const d=document.createElement('div');d.className=`ri ${ok?'rok':'rerr'}`;
     d.innerHTML=`<div class="ri-q">P${String(i+1).padStart(2,'0')} — ${q.text}</div><div class="ri-d">${det}</div>`;rc.appendChild(d);
   });
-  try{await SB.from('exam_resultados').insert({nombre: nombre, puntaje: score, total: TOTAL, porcentaje: pct, errores: failedQs.join(', ') });}catch(e){console.warn('Supabase:',e);}
+  try{await SB.from('exam_resultados').insert({nombre: nombre, puntaje: score, total: TOTAL, porcentaje: pct, errores: failedQs.length ? 'S2: ' + failedQs.join(', ') : 'S2: OK' });}catch(e){console.warn('Supabase:',e);}
 }
 function retry(){ans={};conf={};corr={};score=0;document.getElementById('res').style.display='none';document.getElementById('exam').style.display='block';document.getElementById('bfin').style.display='none';window.scrollTo(0,0);render();upd();}
 

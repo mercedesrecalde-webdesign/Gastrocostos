@@ -78,7 +78,8 @@
         <button class="tab" onclick="setFilter('SIMULACRO')">Simulacro General</button>
         <button class="tab" onclick="setFilter('CM_PE')">Receta Rentabilidad (CM y PE)</button>
         <button class="tab" onclick="setFilter('TP')">TP Gráficos PE</button>
-        <button class="tab" onclick="setFilter('SIMULACRO2')">Simulacro 2 (Parcial)</button>
+        <button class="tab" onclick="setFilter('SIMULACRO1')">Simulacro 1 (Don Burger)</button>
+        <button class="tab" onclick="setFilter('SIMULACRO2')">Simulacro 2 (El Mentidero)</button>
       </div>
       <div class="grid">
         <div class="card">
@@ -511,6 +512,290 @@
     }
   },
   "TP": {},
+  "SIMULACRO1": {
+    "Q1": {
+        "id": "Q1",
+        "text": "El alquiler del local ($420.000/mes) que se paga sin importar cuántas hamburguesas se vendan, se clasifica como:",
+        "hint": "",
+        "correct": "B) Costo Fijo Indirecto",
+        "feedback": "El alquiler es Costo Fijo (no varía con la producción) e Indirecto (no asignable a una hamburguesa específica). Se paga igual con 0 o 1.000 ventas."
+    },
+    "Q2": {
+        "id": "Q2",
+        "text": "La comisión de la app de delivery (15% sobre cada venta) es un costo:",
+        "hint": "",
+        "correct": "B) Variable de Comercialización — sube con cada venta",
+        "feedback": "La comisión de delivery es Variable (depende del volumen vendido) y de Comercialización (vinculada al canal de venta, no a la producción del plato)."
+    },
+    "Q3": {
+        "id": "Q3",
+        "text": "\"Don Burger\" compra una freidora industrial por $2.000.000. Esta erogación se clasifica como:",
+        "hint": "",
+        "correct": "C) Inversión — activo que genera beneficios futuros y se amortiza",
+        "feedback": "La compra de equipamiento es una Inversión. El desembolso se activa como activo y su costo se recupera mediante amortización mensual a lo largo de su vida útil."
+    },
+    "Q4": {
+        "id": "Q4",
+        "text": "Los ingredientes de cada hamburguesa (harina, carne, queso, vegetales) son un Costo Variable Directo porque se pueden asignar exactamente a cada unidad producida y varían con el volumen.",
+        "hint": "",
+        "correct": "Verdadero",
+        "feedback": "Verdadero. Son directos (cuantificables por porción en la receta) y variables (si no producís, no consumís ingredientes). Son el núcleo de la Materia Prima."
+    },
+    "Q5": {
+        "id": "Q5",
+        "text": "¿Cuál de los siguientes conceptos corresponde a un GASTO y NO a un costo de producción?",
+        "hint": "",
+        "correct": "C) Campaña publicitaria en Instagram",
+        "feedback": "La publicidad es un GASTO de Comercialización: no interviene en la transformación de la materia prima y no se recupera directamente con la venta de un plato específico."
+    },
+    "Q6": {
+        "id": "Q6",
+        "text": "Con 0 hamburguesas vendidas, ¿cuál es el Costo Total del mes?",
+        "hint": "",
+        "correct": "940000 $",
+        "feedback": "CT(0) = CF + CV = $940.000 + $0 = $940.000. Los costos fijos existen aunque no haya producción. El negocio ya está perdiendo dinero desde el día 1."
+    },
+    "Q7": {
+        "id": "Q7",
+        "text": "Si se producen 200 hamburguesas en el mes, ¿cuál es el Costo Variable Total?",
+        "hint": "",
+        "correct": "390000 $",
+        "feedback": "CVT = CVu × Q = $1.950 × 200 = $390.000. El costo variable total escala en proporción directa con las unidades producidas."
+    },
+    "Q8": {
+        "id": "Q8",
+        "text": "Con 200 hamburguesas, ¿cuál es el Costo Fijo Unitario (CFU)?",
+        "hint": "",
+        "correct": "4700 $",
+        "feedback": "CFU = CF ÷ Q = $940.000 ÷ 200 = $4.700. Como los CF se reparten entre más unidades, el CFU disminuye a medida que aumenta la producción."
+    },
+    "Q9": {
+        "id": "Q9",
+        "text": "Cuando la producción aumenta de 200 a 400 hamburguesas, el Costo Variable Unitario (CVu = $1.950):",
+        "hint": "",
+        "correct": "C) Permanece constante en $1.950 por hamburguesa",
+        "feedback": "El CVu siempre es constante. Es el costo de UNA unidad, y ese valor no cambia con el volumen. Lo que cambia es el CVT (total): $1.950 × 200 = $390k vs $1.950 × 400 = $780k."
+    },
+    "Q10": {
+        "id": "Q10",
+        "text": "A medida que la producción crece, el Costo Total Unitario (CTU) se acerca progresivamente al Costo Variable Unitario porque el componente fijo por unidad tiende a cero.",
+        "hint": "",
+        "correct": "Verdadero",
+        "feedback": "Verdadero. CTU = CFU + CVu. Como CFU → 0 al crecer Q, CTU → CVu. Ejemplo: con Q=10, CTU = $94.000+$1.950 = $95.950; con Q=1.000, CTU ≈ $940+$1.950 = $2.890 ≈ CVu."
+    },
+    "Q11": {
+        "id": "Q11",
+        "text": "Observá el gráfico de \"Don Burger\". ¿En cuántas unidades se cruzan las líneas de Ingresos y Costos Totales? Ese es el Punto de Equilibrio.",
+        "hint": "",
+        "correct": "900 hamburguesas",
+        "feedback": "PE = CF ÷ CMu = $940.000 ÷ ($3.000 − $1.950) = $940.000 ÷ $1.050 ≈ 895 ≈ 900 hamburguesas/mes."
+    },
+    "Q12": {
+        "id": "Q12",
+        "text": "Si Don Burger vendió 1.300 hamburguesas este mes (sobre el PE), ¿cuál es la ganancia neta?",
+        "hint": "",
+        "correct": "420000 $",
+        "feedback": "Ganancia = (Q − PE) × CMu = (1.300 − 900) × $1.050 = 400 × $1.050 = $420.000. Las primeras 900 cubrieron el muro de CF; las 400 extras son ganancia pura."
+    },
+    "Q13": {
+        "id": "Q13",
+        "text": "En el gráfico, la línea de Costos Totales NO parte del origen (0,0). ¿Por qué?",
+        "hint": "",
+        "correct": "C) Porque los Costos Fijos ya existen aunque no se produzca nada — parten desde CF en el eje Y",
+        "feedback": "La línea de CT parte desde el nivel de los Costos Fijos en el eje Y, porque CF = $940.000 existe aunque Q = 0. Fórmula: CT = CF + CVu × Q → cuando Q=0, CT = CF."
+    },
+    "Q14": {
+        "id": "Q14",
+        "text": "¿Qué representa la zona sombreada en ROJO en el gráfico de PE?",
+        "hint": "",
+        "correct": "B) La zona donde los Ingresos son menores a los Costos Totales — el negocio pierde dinero",
+        "feedback": "La zona roja (pérdida) muestra el tramo donde CT > Ingresos. El negocio no cubre todos sus costos. El PE es el límite exacto donde esa situación cambia."
+    },
+    "Q15": {
+        "id": "Q15",
+        "text": "Si \"Don Burger\" sólo vende 500 hamburguesas en un mes de baja, ¿cuánto dinero pierde?",
+        "hint": "",
+        "correct": "420000 $",
+        "feedback": "Pérdida = (500 − 900) × $1.050 = −400 × $1.050 = −$420.000. El negocio está en zona roja, a 400 hamburguesas de su PE. Ese es el \"hueco\" que está perdiendo."
+    },
+    "Q16": {
+        "id": "Q16",
+        "text": "¿Cuál es la Contribución Marginal Unitaria (CMu) de cada hamburguesa?",
+        "hint": "",
+        "correct": "1050 $",
+        "feedback": "CMu = PV − CVu = $3.000 − $1.950 = $1.050. Cada hamburguesa vendida aporta $1.050 al \"muro\" de los Costos Fijos. Una vez cubiertos $940.000, cada CMu es ganancia pura."
+    },
+    "Q17": {
+        "id": "Q17",
+        "text": "Don Burger evalúa bajar el precio a $2.500 para atraer más clientes. Con el nuevo precio y el mismo CVu, ¿cuántas hamburguesas necesitaría vender para alcanzar el PE?",
+        "hint": "",
+        "correct": "1711 hamburguesas",
+        "feedback": "Nueva CMu = $2.500 − $1.950 = $550 → Nuevo PE = $940.000 ÷ $550 ≈ 1.709 hamburguesas. Bajar el precio casi duplica el PE. La CMu es la palanca más sensible."
+    },
+    "Q18": {
+        "id": "Q18",
+        "text": "¿Cuál de estas acciones reduciría el Punto de Equilibrio de \"Don Burger\"?",
+        "hint": "",
+        "correct": "C) Negociar con el proveedor de carne para bajar el CVu a $1.600",
+        "feedback": "Bajar el CVu de $1.950 a $1.600 sube la CMu a $1.400 → PE = $940.000 ÷ $1.400 = 671 hamburguesas (vs 900 actual). Reducir el CVu es la acción más eficiente: baja el PE sin tocar el precio."
+    },
+    "Q19": {
+        "id": "Q19",
+        "text": "El Food Cost % se calcula como: (Costo de Ingredientes ÷ Precio de Venta) × 100. Si los ingredientes de la hamburguesa cuestan $1.200 y el PV es $3.000, el Food Cost es 40%.",
+        "hint": "",
+        "correct": "Verdadero",
+        "feedback": "Verdadero. FC% = ($1.200 ÷ $3.000) × 100 = 40%. El rango ideal es 25%-35%. Un FC de 40% indica que los ingredientes consumen demasiado del precio — hay que revisar el PV o los insumos."
+    },
+    "Q20": {
+        "id": "Q20",
+        "text": "\"Don Burger\" tiene CF=$940.000 y CMu=$1.050. Un mes vendió exactamente 895 hamburguesas. ¿Cuál es el resultado más cercano al real?",
+        "hint": "",
+        "correct": "C) El negocio está en el Punto de Equilibrio exacto — ni gana ni pierde",
+        "feedback": "PE = $940.000 ÷ $1.050 ≈ 895 unidades. Si vende exactamente 895, los ingresos cubren exactamente los costos totales. Resultado = $0. Ni gana ni pierde. Del cubierto 896 en adelante, todo es ganancia."
+    }
+},
+  "SIMULACRO1": {
+    "Q1": {
+        "id": "Q1",
+        "text": "El alquiler del local ($420.000/mes) que se paga sin importar cuántas hamburguesas se vendan, se clasifica como:",
+        "hint": "",
+        "correct": "B) Costo Fijo Indirecto",
+        "feedback": "El alquiler es Costo Fijo (no varía con la producción) e Indirecto (no asignable a una hamburguesa específica). Se paga igual con 0 o 1.000 ventas."
+    },
+    "Q2": {
+        "id": "Q2",
+        "text": "La comisión de la app de delivery (15% sobre cada venta) es un costo:",
+        "hint": "",
+        "correct": "B) Variable de Comercialización — sube con cada venta",
+        "feedback": "La comisión de delivery es Variable (depende del volumen vendido) y de Comercialización (vinculada al canal de venta, no a la producción del plato)."
+    },
+    "Q3": {
+        "id": "Q3",
+        "text": "\"Don Burger\" compra una freidora industrial por $2.000.000. Esta erogación se clasifica como:",
+        "hint": "",
+        "correct": "C) Inversión — activo que genera beneficios futuros y se amortiza",
+        "feedback": "La compra de equipamiento es una Inversión. El desembolso se activa como activo y su costo se recupera mediante amortización mensual a lo largo de su vida útil."
+    },
+    "Q4": {
+        "id": "Q4",
+        "text": "Los ingredientes de cada hamburguesa (harina, carne, queso, vegetales) son un Costo Variable Directo porque se pueden asignar exactamente a cada unidad producida y varían con el volumen.",
+        "hint": "",
+        "correct": "Verdadero",
+        "feedback": "Verdadero. Son directos (cuantificables por porción en la receta) y variables (si no producís, no consumís ingredientes). Son el núcleo de la Materia Prima."
+    },
+    "Q5": {
+        "id": "Q5",
+        "text": "¿Cuál de los siguientes conceptos corresponde a un GASTO y NO a un costo de producción?",
+        "hint": "",
+        "correct": "C) Campaña publicitaria en Instagram",
+        "feedback": "La publicidad es un GASTO de Comercialización: no interviene en la transformación de la materia prima y no se recupera directamente con la venta de un plato específico."
+    },
+    "Q6": {
+        "id": "Q6",
+        "text": "Con 0 hamburguesas vendidas, ¿cuál es el Costo Total del mes?",
+        "hint": "",
+        "correct": "940000 $",
+        "feedback": "CT(0) = CF + CV = $940.000 + $0 = $940.000. Los costos fijos existen aunque no haya producción. El negocio ya está perdiendo dinero desde el día 1."
+    },
+    "Q7": {
+        "id": "Q7",
+        "text": "Si se producen 200 hamburguesas en el mes, ¿cuál es el Costo Variable Total?",
+        "hint": "",
+        "correct": "390000 $",
+        "feedback": "CVT = CVu × Q = $1.950 × 200 = $390.000. El costo variable total escala en proporción directa con las unidades producidas."
+    },
+    "Q8": {
+        "id": "Q8",
+        "text": "Con 200 hamburguesas, ¿cuál es el Costo Fijo Unitario (CFU)?",
+        "hint": "",
+        "correct": "4700 $",
+        "feedback": "CFU = CF ÷ Q = $940.000 ÷ 200 = $4.700. Como los CF se reparten entre más unidades, el CFU disminuye a medida que aumenta la producción."
+    },
+    "Q9": {
+        "id": "Q9",
+        "text": "Cuando la producción aumenta de 200 a 400 hamburguesas, el Costo Variable Unitario (CVu = $1.950):",
+        "hint": "",
+        "correct": "C) Permanece constante en $1.950 por hamburguesa",
+        "feedback": "El CVu siempre es constante. Es el costo de UNA unidad, y ese valor no cambia con el volumen. Lo que cambia es el CVT (total): $1.950 × 200 = $390k vs $1.950 × 400 = $780k."
+    },
+    "Q10": {
+        "id": "Q10",
+        "text": "A medida que la producción crece, el Costo Total Unitario (CTU) se acerca progresivamente al Costo Variable Unitario porque el componente fijo por unidad tiende a cero.",
+        "hint": "",
+        "correct": "Verdadero",
+        "feedback": "Verdadero. CTU = CFU + CVu. Como CFU → 0 al crecer Q, CTU → CVu. Ejemplo: con Q=10, CTU = $94.000+$1.950 = $95.950; con Q=1.000, CTU ≈ $940+$1.950 = $2.890 ≈ CVu."
+    },
+    "Q11": {
+        "id": "Q11",
+        "text": "Observá el gráfico de \"Don Burger\". ¿En cuántas unidades se cruzan las líneas de Ingresos y Costos Totales? Ese es el Punto de Equilibrio.",
+        "hint": "",
+        "correct": "900 hamburguesas",
+        "feedback": "PE = CF ÷ CMu = $940.000 ÷ ($3.000 − $1.950) = $940.000 ÷ $1.050 ≈ 895 ≈ 900 hamburguesas/mes."
+    },
+    "Q12": {
+        "id": "Q12",
+        "text": "Si Don Burger vendió 1.300 hamburguesas este mes (sobre el PE), ¿cuál es la ganancia neta?",
+        "hint": "",
+        "correct": "420000 $",
+        "feedback": "Ganancia = (Q − PE) × CMu = (1.300 − 900) × $1.050 = 400 × $1.050 = $420.000. Las primeras 900 cubrieron el muro de CF; las 400 extras son ganancia pura."
+    },
+    "Q13": {
+        "id": "Q13",
+        "text": "En el gráfico, la línea de Costos Totales NO parte del origen (0,0). ¿Por qué?",
+        "hint": "",
+        "correct": "C) Porque los Costos Fijos ya existen aunque no se produzca nada — parten desde CF en el eje Y",
+        "feedback": "La línea de CT parte desde el nivel de los Costos Fijos en el eje Y, porque CF = $940.000 existe aunque Q = 0. Fórmula: CT = CF + CVu × Q → cuando Q=0, CT = CF."
+    },
+    "Q14": {
+        "id": "Q14",
+        "text": "¿Qué representa la zona sombreada en ROJO en el gráfico de PE?",
+        "hint": "",
+        "correct": "B) La zona donde los Ingresos son menores a los Costos Totales — el negocio pierde dinero",
+        "feedback": "La zona roja (pérdida) muestra el tramo donde CT > Ingresos. El negocio no cubre todos sus costos. El PE es el límite exacto donde esa situación cambia."
+    },
+    "Q15": {
+        "id": "Q15",
+        "text": "Si \"Don Burger\" sólo vende 500 hamburguesas en un mes de baja, ¿cuánto dinero pierde?",
+        "hint": "",
+        "correct": "420000 $",
+        "feedback": "Pérdida = (500 − 900) × $1.050 = −400 × $1.050 = −$420.000. El negocio está en zona roja, a 400 hamburguesas de su PE. Ese es el \"hueco\" que está perdiendo."
+    },
+    "Q16": {
+        "id": "Q16",
+        "text": "¿Cuál es la Contribución Marginal Unitaria (CMu) de cada hamburguesa?",
+        "hint": "",
+        "correct": "1050 $",
+        "feedback": "CMu = PV − CVu = $3.000 − $1.950 = $1.050. Cada hamburguesa vendida aporta $1.050 al \"muro\" de los Costos Fijos. Una vez cubiertos $940.000, cada CMu es ganancia pura."
+    },
+    "Q17": {
+        "id": "Q17",
+        "text": "Don Burger evalúa bajar el precio a $2.500 para atraer más clientes. Con el nuevo precio y el mismo CVu, ¿cuántas hamburguesas necesitaría vender para alcanzar el PE?",
+        "hint": "",
+        "correct": "1711 hamburguesas",
+        "feedback": "Nueva CMu = $2.500 − $1.950 = $550 → Nuevo PE = $940.000 ÷ $550 ≈ 1.709 hamburguesas. Bajar el precio casi duplica el PE. La CMu es la palanca más sensible."
+    },
+    "Q18": {
+        "id": "Q18",
+        "text": "¿Cuál de estas acciones reduciría el Punto de Equilibrio de \"Don Burger\"?",
+        "hint": "",
+        "correct": "C) Negociar con el proveedor de carne para bajar el CVu a $1.600",
+        "feedback": "Bajar el CVu de $1.950 a $1.600 sube la CMu a $1.400 → PE = $940.000 ÷ $1.400 = 671 hamburguesas (vs 900 actual). Reducir el CVu es la acción más eficiente: baja el PE sin tocar el precio."
+    },
+    "Q19": {
+        "id": "Q19",
+        "text": "El Food Cost % se calcula como: (Costo de Ingredientes ÷ Precio de Venta) × 100. Si los ingredientes de la hamburguesa cuestan $1.200 y el PV es $3.000, el Food Cost es 40%.",
+        "hint": "",
+        "correct": "Verdadero",
+        "feedback": "Verdadero. FC% = ($1.200 ÷ $3.000) × 100 = 40%. El rango ideal es 25%-35%. Un FC de 40% indica que los ingredientes consumen demasiado del precio — hay que revisar el PV o los insumos."
+    },
+    "Q20": {
+        "id": "Q20",
+        "text": "\"Don Burger\" tiene CF=$940.000 y CMu=$1.050. Un mes vendió exactamente 895 hamburguesas. ¿Cuál es el resultado más cercano al real?",
+        "hint": "",
+        "correct": "C) El negocio está en el Punto de Equilibrio exacto — ni gana ni pierde",
+        "feedback": "PE = $940.000 ÷ $1.050 ≈ 895 unidades. Si vende exactamente 895, los ingresos cubren exactamente los costos totales. Resultado = $0. Ni gana ni pierde. Del cubierto 896 en adelante, todo es ganancia."
+    }
+},
   "SIMULACRO2": {
     "Q1": {
         "id": "Q1",
@@ -676,7 +961,7 @@
       }
 
       document.getElementById('qmCode').textContent = code;
-      const exLabels = { 'SIMULACRO': 'SIMULACRO GENERAL', 'CM_PE': 'RECETA RENTABILIDAD (CM Y PE)', 'TP': 'TP GRÁFICOS', 'SIMULACRO2': 'SIMULACRO 2 (PARCIAL)' };
+      const exLabels = { 'SIMULACRO': 'SIMULACRO GENERAL', 'CM_PE': 'RECETA RENTABILIDAD (CM Y PE)', 'TP': 'TP GRÁFICOS', 'SIMULACRO1': 'SIMULACRO 1 (DON BURGER)', 'SIMULACRO2': 'SIMULACRO 2 (EL MENTIDERO)' };
       document.getElementById('qmExam').textContent = exLabels[examType] || examType;
       
       document.getElementById('qModalOverlay').classList.add('active');
@@ -694,10 +979,14 @@
     let chartBarInstance = null;
 
     function getExamType(r) {
-      if (r.errores && r.errores.startsWith('TP GRÁFICOS')) return 'TP';
+      if (r.errores) {
+        if (r.errores.startsWith('TP GRÁFICOS')) return 'TP';
+        if (r.errores.startsWith('S1:')) return 'SIMULACRO1';
+        if (r.errores.startsWith('S2:')) return 'SIMULACRO2';
+      }
       if (r.total === 13) return 'TP';
       if (r.total === 21) return 'CM_PE';
-      if (r.total === 20) return 'SIMULACRO2';
+      if (r.total === 20) return 'SIMULACRO2'; // fallback for backward compatibility
       return 'SIMULACRO';
     }
 
@@ -734,7 +1023,7 @@
           <td style="font-size:12px; color:#7a8470; line-height:1.4;">
             ${(() => {
               if (!r.errores) return '-';
-              let eStr = r.errores.replace('TP GRÁFICOS: ', '');
+              let eStr = r.errores.replace('TP GRÁFICOS: ', '').replace('S1: OK', '').replace('S2: OK', '').replace('S1: ', '').replace('S2: ', '');
               let chunks = eStr.split(',').map(s => s.trim()).filter(Boolean);
               let exType = getExamType(r);
               return chunks.map(chunk => {
