@@ -997,7 +997,16 @@ function showResults() {
   });
 
   // Collect failed questions
-  const failedQs = allItems.filter(q => !correct[q.id]).map(q => q.id.toUpperCase());
+  const failedQs = allItems.filter(q => !correct[q.id]).map(q => {
+    let a = answers[q.id];
+    let ansStr = 'Sin responder';
+    if (a !== undefined) {
+        if(q.type === 'mc') ansStr = String.fromCharCode(65 + a);
+        else if(q.type === 'tf') ansStr = a ? 'Verdadero' : 'Falso';
+        else ansStr = a + (q.unit ? ' ' + q.unit : '');
+    }
+    return q.id.toUpperCase() + '||' + ansStr;
+  });
 
   // Submit metrics
   if (supabaseClient) {

@@ -1036,7 +1036,15 @@ function showResults() {
     QS.forEach((q,i) => {
       const a = answers[i];
       let ok = (q.type==='mc'||q.type==='tf') ? a===q.ans : Math.abs(a-q.ans)<=q.tol;
-      if (!ok) failedQs.push(`P${String(i+1).padStart(2,'0')}`);
+      if (!ok) {
+        let ansStr = 'Sin responder';
+        if (a !== undefined) {
+          if (q.type === 'mc') ansStr = String.fromCharCode(65 + a);
+          else if (q.type === 'tf') ansStr = a ? 'Verdadero' : 'Falso';
+          else ansStr = a + (q.unit ? ' ' + q.unit : '');
+        }
+        failedQs.push(`P${String(i+1).padStart(2,'0')}||${ansStr}`);
+      }
     });
     supabaseClient.from('exam_resultados').insert([
       { nombre: nombre, puntaje: score, total: QS.length, porcentaje: pct, errores: failedQs.join(', ') }
